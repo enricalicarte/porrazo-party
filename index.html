@@ -383,6 +383,15 @@
   .stats b{color:var(--sun);display:block;font-size:15px}
   h2 .coins{font-size:13px;margin-left:8px}
 
+  .ibar{display:flex;gap:6px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .ib{font:inherit;background:rgba(0,0,0,.22);border:3px solid transparent;border-radius:16px;color:var(--cream);width:76px;padding:8px 4px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
+  .ib span{font-size:22px;line-height:1;position:relative}
+  .ib small{font-size:10px;font-weight:700;color:#9fb0e0}
+  .ib:active{background:rgba(0,0,0,.4)}
+  .ib .badge{position:absolute;top:-6px;right:-10px;background:#ff4d6d;color:#fff;font-size:10px;font-weight:800;font-style:normal;border-radius:10px;padding:1px 5px;display:none}
+  .ib .badge.on{display:block}
+  .coinsib{background:rgba(255,210,63,.12);border-color:rgba(255,210,63,.4)}
+  .coinsib small{color:var(--sun)}
   /* ---------- v13 · pantalla grande / mando ---------- */
   #rmInd{position:absolute;top:calc(env(safe-area-inset-top) + 14px);left:60px;font-size:11px;font-weight:700;color:var(--mint);pointer-events:none}
   body.remote #stick, body.remote .btns{opacity:.25}
@@ -401,6 +410,7 @@
   .padTop{position:absolute;top:calc(env(safe-area-inset-top) + 8px);left:12px;right:12px;display:flex;gap:8px;align-items:center;font-size:12px;color:#9fb0e0}
   .padTag{background:rgba(0,0,0,.3);border-radius:10px;padding:4px 9px;font-weight:700;color:var(--cream)}
   .padMsg{flex:1;text-align:center;font-weight:600}
+  .padHelp{position:absolute;top:calc(env(safe-area-inset-top) + 92px);left:0;right:0;text-align:center;font-size:11px;color:#9fb0e0;margin:0;pointer-events:none}
   body.linked .padMsg{color:var(--mint)}
   .padMenu{position:absolute;top:calc(env(safe-area-inset-top) + 46px);left:50%;transform:translateX(-50%);display:flex;gap:10px}
   .padMini{font:inherit;font-weight:700;font-size:13px;padding:8px 14px;border-radius:12px;border:3px solid var(--ink);background:var(--cream);color:var(--ink);touch-action:none}
@@ -477,23 +487,15 @@
       <div class="row" style="margin-top:0">
         <button class="cta" id="goContinue" style="display:none">Continuar</button>
         <button class="cta" id="goSelect">Empezar</button>
+        <button class="cta ghost" id="titleModes">🎮 Modos de juego</button>
       </div>
-      <div class="modes">
-        <button class="mode" id="mDaily"></button>
-        <button class="mode" id="mSurv"></button>
-        <button class="mode" id="mTour"></button>
-        <button class="mode" id="mTut"></button>
-      </div>
-      <div class="row" style="margin-top:6px">
-        <button class="minibtn" id="titleTrophy">🏆 Vitrina</button>
-        <button class="minibtn" id="titleShop">🛍️ Tienda</button>
-        <button class="minibtn" id="titleMissions">🎯 Misiones</button>
-        <button class="minibtn" id="titleSettings">⚙️ Ajustes</button>
-        <button class="minibtn" id="titleScreen">🖥️ Pantalla grande</button>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <span class="coins">🪙 <b>0</b></span>
-        <button class="minibtn" id="mVersus">🎮 Versus local (teclado)</button>
+      <p class="sub" id="modesHint" style="margin:8px 0 0;font-size:12px"></p>
+      <div class="ibar">
+        <button class="ib" id="titleTrophy"><span>🏆</span><small>Vitrina</small></button>
+        <button class="ib" id="titleShop"><span>🛍️</span><small>Tienda</small></button>
+        <button class="ib" id="titleMissions"><span>🎯<i class="badge" id="misBadge"></i></span><small>Misiones</small></button>
+        <button class="ib" id="titleSettings"><span>⚙️</span><small>Ajustes</small></button>
+        <span class="ib coinsib"><span>🪙</span><small><b class="cn">0</b> chapas</small></span>
       </div>
     </div>
   </div>
@@ -580,6 +582,21 @@
     </div>
   </div>
 
+  <div class="screen" id="scModes">
+    <div class="card">
+      <h2>Modos de juego</h2>
+      <div class="modes">
+        <button class="mode" id="mDaily"></button>
+        <button class="mode" id="mSurv"></button>
+        <button class="mode" id="mTour"></button>
+        <button class="mode" id="mTut"></button>
+        <button class="mode" id="mVersus"><b>🎮 Versus local</b><small>Dos jugadores · teclado o dos móviles como mando</small></button>
+        <button class="mode" id="titleScreen"><b>🖥️ Pantalla grande</b><small>Juega en el PC o la tele usando el móvil de mando</small></button>
+      </div>
+      <div class="row"><button class="cta" id="closeModes">Volver</button></div>
+    </div>
+  </div>
+
   <div class="screen" id="scScreen">
     <div class="card">
       <h2>Pantalla grande</h2>
@@ -602,7 +619,7 @@
       <h2>Ajustes</h2>
       <div class="set" id="setBody"></div>
       <div class="row"><button class="cta" id="closeSettings">Volver</button></div>
-      <p class="sub" style="margin-top:14px;font-size:11px;opacity:.6">Porrazo Party v13 · el progreso se guarda en este dispositivo</p>
+      <p class="sub" style="margin-top:14px;font-size:11px;opacity:.6">Porrazo Party v12 · el progreso se guarda en este dispositivo</p>
     </div>
   </div>
 
@@ -661,6 +678,9 @@
       <span class="padTag" id="padMs">— ms</span>
       <span class="padTag">Sala <b id="padCode"></b></span>
     </div>
+    <p class="padHelp">PUÑO también acepta en los menús · el juego va en la pantalla grande</p>
+    <div style="display:none">
+    </div>
     <div class="padMenu">
       <button class="padMini" id="padPause">❚❚ Pausa</button>
       <button class="padMini" id="padOk">✔ Aceptar</button>
@@ -701,13 +721,13 @@
     setInterval(function(){ if(conn && conn.open){ if(dirty || (Date.now() - st.t) > 100){ st.t = Date.now(); conn.send(st); dirty = false; } } }, 33);
     setInterval(function(){ if(conn && conn.open) conn.send({ping:Date.now()}); }, 2000);
     if(navigator.wakeLock){ try{ navigator.wakeLock.request('screen'); }catch(e){} }
-    document.addEventListener('click', function(){ try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); if(screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape'); }catch(e){} }, {once:true});
+    document.addEventListener('click', function(){ try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); if(screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(function(){}); }catch(e){} }, {once:true});
   }
   function setMsg(t){ $('padMsg').textContent = t; }
   function connect(){
     setMsg('Conectando a la sala ' + code + '…');
     if(peer){ try{ peer.destroy(); }catch(e){} }
-    peer = new Peer(undefined, {debug:0});
+    peer = new Peer(undefined, window.PP_PEER_OPTS || {debug:0});
     peer.on('open', function(){
       conn = peer.connect('porrazo-' + code, {reliable:false, serialization:'json'});
       conn.on('open', function(){ setMsg('Conectado · esperando pantalla'); document.body.classList.add('linked'); });
@@ -740,7 +760,7 @@
       if(ny < -0.6 && !zone.__up){ zone.__up = true; set('u', st.u + 1); }
       if(ny > -0.3) zone.__up = false;
     }
-    zone.addEventListener('pointerdown', function(e){ if(id !== null) return; id = e.pointerId; zone.setPointerCapture(id); ox = e.clientX; oy = e.clientY; zone.classList.add('act'); });
+    zone.addEventListener('pointerdown', function(e){ if(id !== null) return; id = e.pointerId; try{ zone.setPointerCapture(id); }catch(er){} ox = e.clientX; oy = e.clientY; zone.classList.add('act'); });
     zone.addEventListener('pointermove', function(e){ if(e.pointerId === id) upd(e.clientX, e.clientY); });
     function end(e){ if(e.pointerId !== id) return; id = null; zone.classList.remove('act'); knob.style.transform = ''; set('l',0); set('r',0); set('h',0); zone.__up = false; }
     zone.addEventListener('pointerup', end); zone.addEventListener('pointercancel', end);
@@ -752,6 +772,7 @@
       var up = function(){ el.classList.remove('down'); };
       el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up); el.addEventListener('pointerleave', up);
     });
+    $('padSlot').textContent = '—';
     $('padOk').addEventListener('pointerdown', function(e){ e.preventDefault(); if(conn && conn.open) conn.send({ok:1}); vib(15); });
     $('padPause').addEventListener('pointerdown', function(e){ e.preventDefault(); if(conn && conn.open) conn.send({pause:1}); vib(15); });
   }
@@ -2434,7 +2455,7 @@ function spOrigin(id){
 })();
 
 function show(id){
-  ['scTitle','scSelect','scStage','scTrophy','scEnd','scSettings','scShop','scMissions','scScreen'].forEach(function(s){ $(s).classList.toggle('on', s===id); });
+  ['scTitle','scSelect','scStage','scTrophy','scEnd','scSettings','scShop','scMissions','scScreen','scModes'].forEach(function(s){ $(s).classList.toggle('on', s===id); });
   if(id){ $('pauseBtn').classList.remove('on'); $('vig').classList.remove('on'); $('tut').classList.remove('on'); }
   $('pad').style.display = id ? 'none' : 'block';
   $('hud').style.opacity = id ? '0' : '1';
@@ -3129,7 +3150,7 @@ function addChapas(n, why){
   refreshCoins();
 }
 function refreshCoins(){
-  Array.prototype.forEach.call(document.querySelectorAll('.coins b'), function(b){ b.textContent = PROFILE.chapas; });
+  Array.prototype.forEach.call(document.querySelectorAll('.coins b, .cn'), function(b){ b.textContent = PROFILE.chapas; });
 }
 var toastT = null;
 function toast(txt){
@@ -3884,7 +3905,8 @@ function refreshTitle(){
   $('mTour').innerHTML = '<b>🏟️ Torneo rápido</b><small>4 rivales seguidos · ganados: ' + PROFILE.stats.bestTournament + '</small>';
   $('mTut').innerHTML = '<b>' + (PROFILE.tutorial ? '🎓' : '🆕') + ' Tutorial</b><small>' + (PROFILE.tutorial ? 'Repasa los golpes' : '90 segundos · +50 🪙') + '</small>';
   var pend = Mission.pending();
-  $('titleMissions').textContent = '🎯 Misiones' + (pend ? ' (' + pend + ')' : '');
+  $('misBadge').textContent = pend; $('misBadge').classList.toggle('on', pend > 0);
+  $('modesHint').textContent = d.done ? '' : 'Hoy: ' + d.m.name + ' · desafío diario disponible';
   Music.setMood('menu');
 }
 $('goContinue').onclick = function(){
@@ -3903,6 +3925,8 @@ $('mDaily').onclick = function(){ ac(); goLandscape(); SFX.bell(); startDaily();
 $('mSurv').onclick  = function(){ ac(); goLandscape(); SFX.bell(); startSurvival(); };
 $('mTour').onclick  = function(){ ac(); goLandscape(); SFX.bell(); startTournament(); };
 $('mTut').onclick   = function(){ ac(); goLandscape(); SFX.bell(); Tutorial.start(); };
+$('titleModes').onclick = function(){ ac(); SFX.sw1(); show('scModes'); };
+$('closeModes').onclick = function(){ ac(); SFX.sw1(); show('scTitle'); refreshTitle(); };
 $('mVersus').onclick= function(){ ac(); goLandscape(); SFX.bell(); startVersus(); };
 $('shareBtn').onclick = function(){
   ac();
@@ -3985,7 +4009,7 @@ var Remote = (function(){
   function padUrl(){ var u = location.href.split('?')[0].split('#')[0]; return u + '?modo=mando&sala=' + code; }
   function setStatus(s, msg){
     status = s; var el = $('rsStatus'); if(el) el.textContent = msg;
-    var b = $('titleScreen'); if(b) b.textContent = '🖥️ Pantalla grande' + (pads[0]||pads[1] ? ' ·📶' : '');
+    var b = $('titleScreen'); if(b) b.innerHTML = '<b>🖥️ Pantalla grande' + (pads[0]||pads[1] ? ' · 📶 conectado' : '') + '</b><small>Juega en el PC o la tele usando el móvil de mando</small>';
   }
   function refresh(){
     var el = $('rsPads'); if(!el) return;
@@ -4006,7 +4030,10 @@ var Remote = (function(){
       if(d.ms !== undefined){ conn.ms = d.ms; refresh(); return; }
       if(d.ok){ menuOk(); return; }
       if(d.pause){ if(running && !paused) pauseGame(); else if(paused) resumeGame(); return; }
-      if(d.l !== undefined){ state[slot] = d; }
+      if(d.l !== undefined){
+        if(!running && state[slot] && (d.p !== state[slot].p || d.s !== state[slot].s)) menuOk();
+        state[slot] = d;
+      }
     });
     conn.on('close', function(){ pads[slot] = null; state[slot] = null; refresh(); toast('Mando ' + (slot+1) + ' desconectado'); if(running && !paused && slot===0) pauseGame(); });
     conn.on('error', function(){});
@@ -4018,8 +4045,8 @@ var Remote = (function(){
     /* pulsa el botón principal de la pantalla visible */
     if(running){ if(paused) resumeGame(); return; }
     var sc = document.querySelector('.screen.on'); if(!sc) return;
-    var b = sc.querySelector('#goRound, #again, #goFight, #goContinue, #closeSettings, #closeShop, #closeMissions, #closeTrophy, #closeScreen, .cta');
-    if(b) b.click();
+    var list = sc.querySelectorAll('#goRound, #again, #goFight, #goContinue, #closeSettings, #closeShop, #closeMissions, #closeTrophy, #closeScreen, .cta');
+    for(var i=0;i<list.length;i++){ if(list[i].offsetParent !== null){ list[i].click(); return; } }
   }
   function start(){
     var box = $('rsQr'); if(box) box.innerHTML = '';
@@ -4032,7 +4059,7 @@ var Remote = (function(){
   }
   function tryPeer(attempt){
     code = newCode();
-    peer = new Peer('porrazo-' + code, {debug:0});
+    peer = new Peer('porrazo-' + code, window.PP_PEER_OPTS || {debug:0});
     peer.on('open', function(){ setStatus('open', 'Escanea con el móvil'); showQr(); });
     peer.on('connection', function(conn){ conn.on('open', function(){ attach(conn); }); });
     peer.on('error', function(e){
@@ -4068,7 +4095,7 @@ var Remote = (function(){
     return {left:r.left||local.left, right:r.right||local.right, up:r.up||local.up, punch:r.punch||local.punch, kick:r.kick||local.kick, special:r.special||local.special, hard:r.hard||local.hard}; };
 })();
 $('titleScreen').onclick = function(){ ac(); SFX.sw1(); show('scScreen'); Remote.start(); };
-$('closeScreen').onclick = function(){ ac(); show('scTitle'); refreshTitle(); };
+$('closeScreen').onclick = function(){ ac(); show('scModes'); };
 if(/[?&]modo=pantalla/.test(location.search)){ show('scScreen'); Remote.start(); }
 
 if(location.hash === '#debug'){
