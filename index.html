@@ -392,6 +392,7 @@
   .ib .badge.on{display:block}
   .coinsib{background:rgba(255,210,63,.12);border-color:rgba(255,210,63,.4)}
   .coinsib small{color:var(--sun)}
+  .rfocus{outline:4px solid var(--sun) !important;outline-offset:3px;box-shadow:0 0 0 9px rgba(255,210,63,.22) !important;position:relative;z-index:2}
   /* ---------- v13 · pantalla grande / mando ---------- */
   #rmInd{position:absolute;top:calc(env(safe-area-inset-top) + 14px);left:60px;font-size:11px;font-weight:700;color:var(--mint);pointer-events:none}
   body.remote #stick, body.remote .btns{opacity:.25}
@@ -407,12 +408,42 @@
   html.padmode, html.padmode body{overflow:hidden;background:#1b2440;touch-action:none;-webkit-user-select:none;user-select:none}
   html.padmode #app{display:none}
   #rpad{display:none;position:fixed;inset:0;background:radial-gradient(120% 90% at 50% 40%,#2a3466,#131b33)}
-  .padTop{position:absolute;top:calc(env(safe-area-inset-top) + 8px);left:12px;right:12px;display:flex;gap:8px;align-items:center;font-size:12px;color:#9fb0e0}
-  .padTag{background:rgba(0,0,0,.3);border-radius:10px;padding:4px 9px;font-weight:700;color:var(--cream)}
+  #padVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;display:none}
+  body.view.hasvideo #padVideo{display:block}
+  body.view #padStick{background:rgba(255,246,229,.06);border-color:rgba(255,246,229,.25)}
+  body.view #padKnob{opacity:.55}
+  body.view .padB{opacity:.55}
+  body.view .padMini{opacity:.8}
+  #padHud{display:none;position:absolute;top:calc(env(safe-area-inset-top) + 6px);left:12px;right:12px;pointer-events:none;color:var(--cream)}
+  .phRow{display:flex;gap:10px;align-items:flex-start}
+  .phSide{flex:1}.phSide.r{text-align:right}
+  .phName{font-size:11px;font-weight:800;text-shadow:0 1px 0 #000}
+  .phBar{height:12px;border-radius:7px;background:rgba(0,0,0,.55);border:2px solid var(--ink);overflow:hidden;margin-top:2px}
+  .phBar i{display:block;height:100%;background:#33d9a6;transition:width .15s}
+  .phSide.r .phBar i{margin-left:auto}
+  .phMet{height:5px;border-radius:3px;background:rgba(0,0,0,.5);margin-top:3px;overflow:hidden}
+  .phMet i{display:block;height:100%;background:#7ed0ff}
+  .phSide.r .phMet i{margin-left:auto}
+  .phW{font-size:10px;color:var(--sun);margin-top:2px}
+  .phClock{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:12px;padding:2px 10px;text-align:center;line-height:1.05;min-width:56px}
+  .phClock b{font-size:20px;display:block}.phClock small{font-size:9px;font-weight:800}
+  .phHint{text-align:center;font-size:11px;font-weight:700;margin-top:4px;text-shadow:0 1px 2px #000}
+  .phBig{text-align:center;font-size:34px;font-weight:900;color:var(--sun);-webkit-text-stroke:2px var(--ink);margin-top:10px}
+  #padMenu2{display:none;position:absolute;top:calc(env(safe-area-inset-top) + 10px);left:50%;transform:translateX(-50%);width:min(60vw,420px);max-height:calc(100% - 130px);overflow:auto;
+    background:rgba(19,27,51,.92);border:3px solid var(--ink);border-radius:16px;padding:8px;z-index:3}
+  .pmTitle{font-size:12px;font-weight:800;color:#9fb0e0;text-align:center;margin:2px 0 6px}
+  .pmItem{display:block;width:100%;text-align:left;font:inherit;font-weight:700;font-size:14px;color:var(--cream);background:rgba(255,255,255,.05);border:3px solid transparent;border-radius:10px;padding:8px 10px;margin:3px 0}
+  .pmItem.sel{color:var(--mint)}
+  .pmItem.foc{border-color:var(--sun);background:rgba(255,210,63,.15)}
+  .padTop{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 6px);left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center;font-size:10px;color:#9fb0e0;pointer-events:none;white-space:nowrap}
+  .padTag{background:rgba(0,0,0,.35);border-radius:10px;padding:3px 7px;font-weight:700;color:var(--cream)}
   .padMsg{flex:1;text-align:center;font-weight:600}
-  .padHelp{position:absolute;top:calc(env(safe-area-inset-top) + 92px);left:0;right:0;text-align:center;font-size:11px;color:#9fb0e0;margin:0;pointer-events:none}
+  .padHelp{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 30px);left:0;right:0;text-align:center;font-size:11px;color:#9fb0e0;margin:0;pointer-events:none}
   body.linked .padMsg{color:var(--mint)}
-  .padMenu{position:absolute;top:calc(env(safe-area-inset-top) + 46px);left:50%;transform:translateX(-50%);display:flex;gap:10px}
+  .padMenu{position:absolute;top:calc(env(safe-area-inset-top) + 74px);right:calc(env(safe-area-inset-right) + 10px);display:flex;flex-direction:column;gap:6px;align-items:stretch;z-index:4}
+  .padMenu .padMini{font-size:12px;padding:6px 10px;text-align:left}
+  body.fight .padHelp{display:none}
+  body.fight #padMenu2{display:none !important}
   .padMini{font:inherit;font-weight:700;font-size:13px;padding:8px 14px;border-radius:12px;border:3px solid var(--ink);background:var(--cream);color:var(--ink);touch-action:none}
   #padStick{position:absolute;left:calc(env(safe-area-inset-left) + 40px);bottom:calc(env(safe-area-inset-bottom) + 40px);width:150px;height:150px;border-radius:50%;
     background:rgba(255,246,229,.12);border:3px solid rgba(255,246,229,.35);touch-action:none}
@@ -608,6 +639,7 @@
           <div class="rsurl" id="rsUrl"></div>
           <div class="rspads" id="rsPads"><span>J1 esperando…</span><span>J2 esperando…</span></div>
           <div class="rsst" id="rsStatus">Preparando…</div>
+          <button class="minibtn" id="rsMirror" style="margin-top:10px">🪞 Espejo completo (con menús)</button>
         </div>
       </div>
       <div class="row"><button class="cta" id="closeScreen">Al menú</button></div>
@@ -672,18 +704,25 @@
   <div id="err"></div>
 </div>
   <div id="rpad">
+    <video id="padVideo" autoplay playsinline muted></video>
+    <div id="padHud">
+      <div class="phRow"><div class="phSide"><div class="phName" id="phNp"></div><div class="phBar"><i id="phHp"></i></div><div class="phMet"><i id="phMp"></i></div><div class="phW" id="phWp"></div></div>
+        <div class="phClock"><b id="phT">60</b><small id="phR"></small></div>
+        <div class="phSide r"><div class="phName" id="phNe"></div><div class="phBar"><i id="phHe"></i></div><div class="phMet"><i id="phMe"></i></div><div class="phW" id="phWe"></div></div></div>
+      <div class="phHint" id="phHint"></div><div class="phBig" id="phBig"></div>
+    </div>
+    <div id="padMenu2"></div>
     <div class="padTop">
       <span class="padTag" id="padSlot">—</span>
       <span class="padMsg" id="padMsg">Iniciando…</span>
       <span class="padTag" id="padMs">— ms</span>
       <span class="padTag">Sala <b id="padCode"></b></span>
     </div>
-    <p class="padHelp">PUÑO también acepta en los menús · el juego va en la pantalla grande</p>
-    <div style="display:none">
-    </div>
+    <p class="padHelp">Stick: moverte por menús · PUÑO acepta · PATADA atrás · toca una opción de la lista para elegirla</p>
     <div class="padMenu">
       <button class="padMini" id="padPause">❚❚ Pausa</button>
       <button class="padMini" id="padOk">✔ Aceptar</button>
+      <button class="padMini" id="padView">🎮 Solo pad</button>
     </div>
     <div id="padStick"><div id="padKnob"></div></div>
     <div class="padBtns">
@@ -706,10 +745,36 @@
   document.addEventListener('DOMContentLoaded', init);
 
   var $ = function(id){ return document.getElementById(id); };
-  var st = {l:0,r:0,u:0,p:0,k:0,s:0,h:0,t:0}, conn = null, peer = null, dirty = false, slot = null, lastPong = 0;
+  var st = {l:0,r:0,u:0,dn:0,p:0,k:0,s:0,h:0,t:0}, conn = null, peer = null, dirty = false, slot = null, lastPong = 0;
 
+  var view = true;
+  function setView(v){ view = v; document.body.classList.toggle('view', view); $('padView').textContent = view ? '🎮 Solo pad' : '👁 Ver juego'; }
+  function renderMenu(m){
+    var box = $('padMenu2');
+    if(!m || !m.items || !m.items.length){ box.style.display = 'none'; box.innerHTML = ''; return; }
+    box.style.display = 'block';
+    var h = '<div class="pmTitle">' + (m.title || 'Menú') + '</div>';
+    m.items.forEach(function(t, i){ h += '<button class="pmItem' + (i===m.idx ? ' foc' : '') + (m.sel && m.sel[i] ? ' sel' : '') + '" data-i="' + i + '">' + t.replace(/</g,'&lt;') + '</button>'; });
+    box.innerHTML = h;
+  }
+  function renderHud(h){
+    var el = $('padHud'); document.body.classList.toggle('fight', !!h);
+    if(!h){ el.style.display = 'none'; return; }
+    el.style.display = 'block';
+    $('phNp').textContent = h.np; $('phNe').textContent = h.ne;
+    $('phHp').style.width = h.hp + '%'; $('phHe').style.width = h.he + '%';
+    $('phHp').style.background = h.hp < 25 ? '#ff4d6d' : h.hp < 50 ? '#ffd23f' : '#33d9a6';
+    $('phHe').style.background = h.he < 25 ? '#ff4d6d' : h.he < 50 ? '#ffd23f' : '#33d9a6';
+    $('phMp').style.width = h.mp + '%'; $('phMe').style.width = h.me + '%';
+    $('phT').textContent = h.paused ? '❚❚' : h.t; $('phR').textContent = h.r;
+    $('phWp').textContent = '●'.repeat(h.wp) + '○'.repeat(Math.max(0, 2 - h.wp)); $('phWe').textContent = '○'.repeat(Math.max(0, 2 - h.we)) + '●'.repeat(h.we);
+    $('phBig').textContent = h.big || ''; $('phHint').textContent = h.hint || '';
+  }
   function init(){
     var pad = $('rpad'); pad.style.display = 'block';
+    setView(true);
+    $('padView').addEventListener('pointerdown', function(e){ e.preventDefault(); setView(!view); vib(10); });
+    $('padMenu2').addEventListener('pointerdown', function(e){ var b = e.target.closest('.pmItem'); if(b && conn && conn.open){ e.preventDefault(); conn.send({act:parseInt(b.dataset.i, 10)}); vib(10); } });
     $('padCode').textContent = code || '????';
     if(!code){ setMsg('Falta el código de sala. Escanea el QR de la pantalla.'); return; }
     var s = document.createElement('script');
@@ -728,6 +793,11 @@
     setMsg('Conectando a la sala ' + code + '…');
     if(peer){ try{ peer.destroy(); }catch(e){} }
     peer = new Peer(undefined, window.PP_PEER_OPTS || {debug:0});
+    peer.on('call', function(call){
+      call.answer();
+      call.on('stream', function(ms){ var v = $('padVideo'); v.srcObject = ms; v.muted = true; v.play().catch(function(){}); document.body.classList.add('hasvideo'); });
+      call.on('close', function(){ document.body.classList.remove('hasvideo'); });
+    });
     peer.on('open', function(){
       conn = peer.connect('porrazo-' + code, {reliable:false, serialization:'json'});
       conn.on('open', function(){ setMsg('Conectado · esperando pantalla'); document.body.classList.add('linked'); });
@@ -735,6 +805,8 @@
         if(!d) return;
         if(d.hello){ slot = d.slot; setMsg((slot===0 ? 'Jugador 1' : 'Jugador 2') + ' · conectado'); $('padSlot').textContent = slot===0 ? 'J1' : 'J2'; vib(40); }
         if(d.full){ setMsg('La sala ya tiene dos mandos.'); }
+        if(d.menu !== undefined){ renderMenu(d.menu); if(d.menu) renderHud(null); }
+        if(d.hud !== undefined){ renderHud(d.hud); if(d.hud) renderMenu(null); }
         if(d.pong !== undefined){ var ms = Date.now() - d.pong; $('padMs').textContent = ms + ' ms'; conn.send({ms:ms}); }
       });
       conn.on('close', function(){ document.body.classList.remove('linked'); setMsg('Pantalla desconectada · reintentando…'); setTimeout(connect, 2000); });
@@ -759,10 +831,11 @@
       set('l', nx < -0.28 ? 1 : 0); set('r', nx > 0.28 ? 1 : 0); set('h', Math.abs(nx) > 0.85 ? 1 : 0);
       if(ny < -0.6 && !zone.__up){ zone.__up = true; set('u', st.u + 1); }
       if(ny > -0.3) zone.__up = false;
+      set('dn', ny > 0.6 ? 1 : 0);
     }
     zone.addEventListener('pointerdown', function(e){ if(id !== null) return; id = e.pointerId; try{ zone.setPointerCapture(id); }catch(er){} ox = e.clientX; oy = e.clientY; zone.classList.add('act'); });
     zone.addEventListener('pointermove', function(e){ if(e.pointerId === id) upd(e.clientX, e.clientY); });
-    function end(e){ if(e.pointerId !== id) return; id = null; zone.classList.remove('act'); knob.style.transform = ''; set('l',0); set('r',0); set('h',0); zone.__up = false; }
+    function end(e){ if(e.pointerId !== id) return; id = null; zone.classList.remove('act'); knob.style.transform = ''; set('l',0); set('r',0); set('h',0); set('dn',0); zone.__up = false; }
     zone.addEventListener('pointerup', end); zone.addEventListener('pointercancel', end);
   }
   function bindButtons(){
@@ -4028,17 +4101,28 @@ var Remote = (function(){
       if(!d) return;
       if(d.ping !== undefined){ conn.send({pong:d.ping}); return; }
       if(d.ms !== undefined){ conn.ms = d.ms; refresh(); return; }
-      if(d.ok){ menuOk(); return; }
+      if(d.ok){ Nav.activate(); return; }
+      if(d.act !== undefined){ Nav.activateIndex(d.act); return; }
+      if(d.nav){ Nav.move(d.nav); return; }
       if(d.pause){ if(running && !paused) pauseGame(); else if(paused) resumeGame(); return; }
       if(d.l !== undefined){
-        if(!running && state[slot] && (d.p !== state[slot].p || d.s !== state[slot].s)) menuOk();
+        var pv = state[slot];
+        if((!running || paused) && pv && slot === 0){
+          if(d.l && !pv.l) Nav.move('left');
+          if(d.r && !pv.r) Nav.move('right');
+          if(d.u !== pv.u) Nav.move('up');
+          if(d.dn && !pv.dn) Nav.move('down');
+          if(d.p !== pv.p || d.s !== pv.s) Nav.activate();
+          if(d.k !== pv.k) Nav.back();
+        }
         state[slot] = d;
       }
     });
     conn.on('close', function(){ pads[slot] = null; state[slot] = null; refresh(); toast('Mando ' + (slot+1) + ' desconectado'); if(running && !paused && slot===0) pauseGame(); });
     conn.on('error', function(){});
     conn.send({hello:1, slot:slot});
-    toast('Mando ' + (slot+1) + ' conectado'); SFX.bell(); refresh();
+    toast('Mando ' + (slot+1) + ' conectado'); SFX.bell(); refresh(); if(slot===0) Nav.reset();
+    if(Remote.onPad) Remote.onPad(conn);
     if(slot===1) hint('J2 conectado · Versus local disponible');
   }
   function menuOk(){
@@ -4053,6 +4137,7 @@ var Remote = (function(){
     setStatus('loading', 'Cargando…');
     libs(function(ok){
       if(!ok || !window.Peer){ setStatus('err', 'No se ha podido cargar la librería de conexión. Comprueba la red.'); return; }
+      /* PATADA = atrás también en la propia pantalla de sala */
       if(peer){ showQr(); return; }
       tryPeer(0);
     });
@@ -4085,7 +4170,9 @@ var Remote = (function(){
     prev[slot] = {l:s.l,r:s.r,u:s.u,p:s.p,k:s.k,s:s.s,h:s.h,t:s.t};
     return o;
   }
-  return {start:start, read:read, has:function(i){ return !!pads[i]; }, refresh:refresh};
+  return {start:start, read:read, has:function(i){ return !!pads[i]; }, refresh:refresh,
+    peer:function(){ return peer; }, each:function(f){ pads.forEach(function(p){ if(p) f(p); }); },
+    broadcast:function(m){ pads.forEach(function(p){ if(p && p.open){ try{ p.send(m); }catch(e){} } }); }, onPad:null};
 })();
 (function(){
   var c1 = consume, c2 = consume2;
@@ -4097,6 +4184,135 @@ var Remote = (function(){
 $('titleScreen').onclick = function(){ ac(); SFX.sw1(); show('scScreen'); Remote.start(); };
 $('closeScreen').onclick = function(){ ac(); show('scModes'); };
 if(/[?&]modo=pantalla/.test(location.search)){ show('scScreen'); Remote.start(); }
+
+/* ---------- Navegación de menús desde el mando ---------- */
+var Nav = (function(){
+  var idx = -1, els = [], cur = null;
+  var SEL = 'button, .pick, .tile, .chip, .mode, .ib, .tog, .bpill, .seg button, input[type=range]';
+  function root(){ if(paused) return $('pauseOv'); return document.querySelector('.screen.on'); }
+  function visible(e){ return e.offsetParent !== null && !e.disabled && !e.classList.contains('coinsib') && !e.classList.contains('off'); }
+  function collect(){ var r = root(); if(!r) return []; return Array.prototype.filter.call(r.querySelectorAll(SEL), visible); }
+  function paint(){ document.querySelectorAll('.rfocus').forEach(function(e){ e.classList.remove('rfocus'); }); if(cur){ cur.classList.add('rfocus'); try{ cur.scrollIntoView({block:'nearest', inline:'nearest'}); }catch(e){} } }
+  function defIdx(){
+    var pri = ['goRound','again','goContinue','goSelect','goFight','pResume'];
+    for(var i=0;i<els.length;i++) if(pri.indexOf(els[i].id) >= 0) return i;
+    for(var j=0;j<els.length;j++) if(els[j].classList.contains('cta') && !els[j].classList.contains('ghost')) return j;
+    return 0;
+  }
+  function refresh(force){
+    els = collect(); if(!els.length){ cur = null; paint(); return; }
+    var i = cur ? els.indexOf(cur) : -1;
+    if(i < 0 || force){ i = defIdx(); }
+    idx = i; cur = els[idx]; paint();
+  }
+  function center(e){ var r = e.getBoundingClientRect(); return {x:r.left + r.width/2, y:r.top + r.height/2, w:r.width, h:r.height}; }
+  function move(dir){
+    els = collect(); if(!els.length) return;
+    if(!cur || els.indexOf(cur) < 0){ refresh(true); return; }
+    if(cur.tagName === 'INPUT' && (dir==='left' || dir==='right')){
+      var v = Math.max(0, Math.min(1, parseFloat(cur.value) + (dir==='right' ? 0.1 : -0.1)));
+      cur.value = v.toFixed(2); cur.dispatchEvent(new Event('input')); cur.dispatchEvent(new Event('change')); return;
+    }
+    var c = center(cur), best = null, bs = 1e9;
+    els.forEach(function(e){
+      if(e === cur) return;
+      var o = center(e), dx = o.x - c.x, dy = o.y - c.y, along, off;
+      if(dir==='left'){ along = -dx; off = Math.abs(dy); } else if(dir==='right'){ along = dx; off = Math.abs(dy); }
+      else if(dir==='up'){ along = -dy; off = Math.abs(dx); } else { along = dy; off = Math.abs(dx); }
+      if(along < 8) return;
+      var s = along + off*2.2;
+      if(s < bs){ bs = s; best = e; }
+    });
+    if(best){ cur = best; idx = els.indexOf(cur); paint(); SFX.sw1(); }
+  }
+  function activate(){
+    els = collect();
+    if(!cur || els.indexOf(cur) < 0) refresh(true);
+    if(cur){ cur.click(); SFX.sw1(); setTimeout(function(){ refresh(false); }, 120); }
+  }
+  function back(){
+    var r = root(); if(!r) return;
+    var b = r.querySelector('#closeModes, #closeScreen, #closeSettings, #closeShop, #dClose, #closeMissions, #closeTrophy, #pResume');
+    if(b && visible(b)){ b.click(); SFX.sw1(); setTimeout(function(){ refresh(true); }, 120); }
+  }
+  function reset(){ cur = null; idx = -1; setTimeout(function(){ if(Remote.has(0)) refresh(true); }, 60); }
+  function label(e){
+    if(e.tagName === 'INPUT') return '🎚 ' + Math.round(parseFloat(e.value)*100) + '%';
+    if(e.classList.contains('tog')) return e.classList.contains('on') ? '● activado' : '○ desactivado';
+    var b = e.querySelector && e.querySelector('b, .tn, .pn');
+    var t = ((b && (e.classList.contains('mode') || e.classList.contains('tile') || e.classList.contains('pick'))) ? b.textContent : (e.textContent || '')).replace(/\s+/g,' ').trim();
+    if(e.closest && e.closest('.srow')){ var lab = e.closest('.srow').firstChild; t = (lab && lab.textContent ? lab.textContent.replace(/\s+/g,' ').trim().slice(0,22) + ': ' : '') + t; }
+    return t.slice(0, 44) || '·';
+  }
+  function snapshot(){
+    var r = root(); if(!r) return null;
+    els = collect();
+    var h = r.querySelector('h1, h2, .verdict, .stagehead, .lgtitle');
+    return {title:h ? h.textContent.replace(/\s+/g,' ').trim().slice(0,40) : (paused ? 'Pausa' : ''), items:els.map(label), idx:cur ? els.indexOf(cur) : -1, sel:els.map(function(e){ return e.classList.contains('sel') || e.classList.contains('now') ? 1 : 0; })};
+  }
+  function activateIndex(i){ els = collect(); if(els[i]){ cur = els[i]; idx = i; paint(); activate(); } }
+  return {move:move, activate:activate, back:back, reset:reset, refresh:refresh, snapshot:snapshot, activateIndex:activateIndex};
+})();
+(function(){
+  var show0 = show;
+  show = function(id){ show0(id); Nav.reset(); };
+  var pause0 = pauseGame, resume0 = resumeGame;
+  pauseGame = function(){ pause0(); Nav.reset(); };
+  resumeGame = function(){ resume0(); document.querySelectorAll('.rfocus').forEach(function(e){ e.classList.remove('rfocus'); }); };
+  /* "Nueva partida" con confirmación sin diálogo nativo cuando manda el móvil */
+  var sel0 = $('goSelect').onclick, armT = 0;
+  $('goSelect').onclick = function(){
+    if(PROFILE.run && Remote.has(0)){
+      if(Date.now() - armT > 4000){ armT = Date.now(); toast('Borra la partida guardada · pulsa otra vez para confirmar'); SFX.block(); return; }
+      ac(); goLandscape(); SFX.bell(); resetRun(); clearRun(); fight.kind = 'arcade'; show('scSelect'); return;
+    }
+    sel0.call(this);
+  };
+})();
+
+/* ---------- Espejo: vídeo del canvas + HUD + menús hacia el móvil ---------- */
+var shoutAt = 0;
+(function(){
+  var sh0 = shout; shout = function(t){ sh0(t); shoutAt = Date.now(); };
+  var stream = null, mirror = null, calls = {};
+  function baseStream(){
+    if(mirror) return mirror;
+    if(!stream){ try{ stream = renderer.domElement.captureStream ? renderer.domElement.captureStream(30) : null; }catch(e){ stream = null; } }
+    return stream;
+  }
+  function callPad(conn){
+    var s = baseStream(); if(!s || !peerRef()) return;
+    try{
+      if(calls[conn.peer]) calls[conn.peer].close();
+      calls[conn.peer] = peerRef().call(conn.peer, s);
+    }catch(e){}
+  }
+  function peerRef(){ return Remote.peer(); }
+  Remote.onPad = function(conn){ setTimeout(function(){ callPad(conn); }, 400); };
+  Remote.recall = function(){ Remote.each(callPad); };
+  $('rsMirror').onclick = function(){
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia){ toast('Este navegador no permite capturar la pestaña'); return; }
+    navigator.mediaDevices.getDisplayMedia({video:{frameRate:30}, audio:false, preferCurrentTab:true, selfBrowserSurface:'include'}).then(function(ms){
+      mirror = ms; Remote.recall(); $('rsMirror').textContent = '✅ Espejo completo activo';
+      ms.getVideoTracks()[0].onended = function(){ mirror = null; Remote.recall(); $('rsMirror').textContent = '🪞 Espejo completo (con menús)'; };
+    }).catch(function(){ toast('Captura cancelada'); });
+  };
+  /* HUD y menú a 10 Hz */
+  var lastMenu = '';
+  setInterval(function(){
+    if(!Remote.has(0) && !Remote.has(1)) return;
+    if(running && player && enemy){
+      Remote.broadcast({hud:{np:$('nameP').textContent, ne:$('nameE').textContent, hp:Math.round(pct(player)), he:Math.round(pct(enemy)),
+        mp:Math.round(player.meter), me:Math.round(enemy.meter), t:Math.ceil(Math.max(0,clock)), r:$('rno').textContent,
+        wp:winsP, we:winsE, big:(Date.now()-shoutAt < 1400) ? $('shout').textContent : '', hint:$('hint').classList.contains('on') ? $('hint').textContent : '', paused:paused}});
+      if(!paused && lastMenu){ lastMenu = ''; Remote.broadcast({menu:null}); }
+    }
+    if(!running || paused){
+      var snap = Nav.snapshot(), key = JSON.stringify(snap);
+      if(key !== lastMenu){ lastMenu = key; Remote.broadcast({menu:snap}); }
+    }
+  }, 100);
+})();
 
 if(location.hash === '#debug'){
   window.PP = {
