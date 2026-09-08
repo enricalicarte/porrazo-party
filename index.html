@@ -435,6 +435,10 @@
   .pmItem{display:block;width:100%;text-align:left;font:inherit;font-weight:700;font-size:14px;color:var(--cream);background:rgba(255,255,255,.05);border:3px solid transparent;border-radius:10px;padding:8px 10px;margin:3px 0}
   .pmItem.sel{color:var(--mint)}
   .pmItem.foc{border-color:var(--sun);background:rgba(255,210,63,.15)}
+  .pulse{animation:pulse 1.2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,210,63,.0)}50%{box-shadow:0 0 0 10px rgba(255,210,63,.35)}}
+  body.fullmirror #padMenu2, body.fullmirror #padHud, body.fullmirror .padHelp{display:none !important}
+  body.fullmirror.view #padVideo{object-fit:contain}
   .padTop{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 6px);left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center;font-size:10px;color:#9fb0e0;pointer-events:none;white-space:nowrap}
   .padTag{background:rgba(0,0,0,.35);border-radius:10px;padding:3px 7px;font-weight:700;color:var(--cream)}
   .padMsg{flex:1;text-align:center;font-weight:600}
@@ -639,7 +643,8 @@
           <div class="rsurl" id="rsUrl"></div>
           <div class="rspads" id="rsPads"><span>J1 esperando…</span><span>J2 esperando…</span></div>
           <div class="rsst" id="rsStatus">Preparando…</div>
-          <button class="minibtn" id="rsMirror" style="margin-top:10px">🪞 Espejo completo (con menús)</button>
+          <button class="cta" id="rsMirror" style="margin-top:10px;font-size:14px;padding:10px 16px">🪞 Compartir esta pestaña con el móvil</button>
+          <div class="rsst" style="margin-top:6px;font-size:11px;opacity:.7">Al pulsarlo, el navegador pide permiso una vez y el móvil verá exactamente lo mismo que esta pantalla, menús incluidos. Sin él, el móvil solo ve el combate.</div>
         </div>
       </div>
       <div class="row"><button class="cta" id="closeScreen">Al menú</button></div>
@@ -805,6 +810,7 @@
         if(!d) return;
         if(d.hello){ slot = d.slot; setMsg((slot===0 ? 'Jugador 1' : 'Jugador 2') + ' · conectado'); $('padSlot').textContent = slot===0 ? 'J1' : 'J2'; vib(40); }
         if(d.full){ setMsg('La sala ya tiene dos mandos.'); }
+        if(d.mirror !== undefined){ document.body.classList.toggle('fullmirror', !!d.mirror); if(d.mirror) setView(true); }
         if(d.menu !== undefined){ renderMenu(d.menu); if(d.menu) renderHud(null); }
         if(d.hud !== undefined){ renderHud(d.hud); if(d.hud) renderMenu(null); }
         if(d.pong !== undefined){ var ms = Date.now() - d.pong; $('padMs').textContent = ms + ' ms'; conn.send({ms:ms}); }
@@ -4292,11 +4298,18 @@ var shoutAt = 0;
   Remote.recall = function(){ Remote.each(callPad); };
   $('rsMirror').onclick = function(){
     if(!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia){ toast('Este navegador no permite capturar la pestaña'); return; }
-    navigator.mediaDevices.getDisplayMedia({video:{frameRate:30}, audio:false, preferCurrentTab:true, selfBrowserSurface:'include'}).then(function(ms){
-      mirror = ms; Remote.recall(); $('rsMirror').textContent = '✅ Espejo completo activo';
-      ms.getVideoTracks()[0].onended = function(){ mirror = null; Remote.recall(); $('rsMirror').textContent = '🪞 Espejo completo (con menús)'; };
-    }).catch(function(){ toast('Captura cancelada'); });
+    navigator.mediaDevices.getDisplayMedia({video:{frameRate:30, width:{max:1280}}, audio:false, preferCurrentTab:true, selfBrowserSurface:'include', surfaceSwitching:'exclude', monitorTypeSurfaces:'exclude'}).then(function(ms){
+      mirror = ms; Remote.recall(); Remote.broadcast({mirror:1});
+      $('rsMirror').textContent = '✅ Espejo activo · el móvil ve lo mismo que esta pantalla'; $('rsMirror').classList.remove('pulse');
+      ms.getVideoTracks()[0].onended = function(){ mirror = null; Remote.recall(); Remote.broadcast({mirror:0}); $('rsMirror').textContent = '🪞 Compartir esta pestaña con el móvil'; };
+    }).catch(function(){ toast('Captura cancelada · el móvil verá solo el combate'); });
   };
+  Remote.mirrorOn = function(){ return !!mirror; };
+  Remote.onPad = (function(prev){ return function(conn){
+    prev(conn);
+    if(mirror){ setTimeout(function(){ try{ conn.send({mirror:1}); }catch(e){} }, 500); }
+    else { $('rsMirror').classList.add('pulse'); if($('scScreen').classList.contains('on')) toast('Pulsa "Compartir esta pestaña" para que el móvil vea los menús'); }
+  }; })(Remote.onPad);
   /* HUD y menú a 10 Hz */
   var lastMenu = '';
   setInterval(function(){
